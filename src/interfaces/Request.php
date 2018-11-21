@@ -13,7 +13,7 @@ namespace Paybox\Core\Interfaces;
 /**
  *
  * @package Paybox\Core\Interfaces
- * @version 1.2.2
+ * @version 1.1.0
  * @author Sergey Astapenko <sa@paybox.money> @link https://paybox.money
  * @copyright LLC Paybox.money
  * @license GPLv3 @link https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -22,14 +22,14 @@ namespace Paybox\Core\Interfaces;
 
 interface Request {
 
-    public function init():bool;
-    public function recurringStart(int $lifetime):bool;
+    public function init();
+    public function recurringStart($lifetime);
     public function makePayment();
-    public function getStatus():string;
-    public function revoke(int $amount = 0):string;
-    public function refund(string $comment, int $amount = 0):string;
-    public function capture():string;
-    public function getPaymentSystems():array;
-    public function cancelBill():string;
+    public function getStatus();
+    public function revoke($amount = 0);
+    public function refund($comment, $amount = 0);
+    public function capture();
+    public function getPaymentSystems();
+    public function cancelBill();
 
 }

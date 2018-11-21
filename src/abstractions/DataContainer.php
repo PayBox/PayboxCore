@@ -13,16 +13,14 @@ namespace Paybox\Core\Abstractions;
 use ReflectionClass;
 use ReflectionObject;
 use ReflectionProperty;
-use Paybox\Core\Exceptions\ {
-    Payment as PaymentException,
-    Property as PropertyException,
-    Method as MethodException
-};
+use Paybox\Core\Exceptions\Payment as PaymentException;
+use Paybox\Core\Exceptions\Property as PropertyException;
+use Paybox\Core\Exceptions\Method as MethodException;
 
 /**
  *
  * @package Paybox\Core\Abstractions
- * @version 1.2.2
+ * @version 1.1.0
  * @author Sergey Astapenko <sa@paybox.money> @link https://paybox.money
  * @copyright LLC Paybox.money
  * @license GPLv3 @link https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -66,7 +64,7 @@ abstract class DataContainer extends DataProvider {
      *
      */
 
-    protected function save($script = null, $use_ext = true):void {
+    protected function save($script = null, $use_ext = true) {
         $this->url = (is_null($script))
             ? $_SERVER['REQUEST_URI']
             : ($use_ext ? $script . '.php' : $script);
@@ -89,7 +87,7 @@ abstract class DataContainer extends DataProvider {
      * @return bool TRUE if signature is valid
      */
 
-    public function checkSig(array $data):bool {
+    public function checkSig($data) {
         $this->serverAnswer = $data;
         $sign = $this->getServerAnswer('sig');
         $salt = $this->getServerAnswer('salt');
@@ -106,7 +104,7 @@ abstract class DataContainer extends DataProvider {
      *
      */
 
-    private function addModel(DataContainer $model):void {
+    private function addModel($model) {
         $defProps = (new ReflectionClass($model))
             ->getProperties(ReflectionProperty::IS_PUBLIC);
         $default = ['prefix', 'delimeter'];
@@ -135,7 +133,7 @@ abstract class DataContainer extends DataProvider {
      *
      */
 
-    private function sign(array &$data = null, $salt = null):void {
+    private function sign(&$data = null, $salt = null) {
         $salt = (is_null($salt))
             ? $this->getSalt(16)
             : $salt;
@@ -177,7 +175,7 @@ abstract class DataContainer extends DataProvider {
      *
      */
 
-    private function checkFilling():void {
+    private function checkFilling() {
         foreach(get_object_vars($this) as $prop) {
             if($this->isModel($prop)) {
                 $this->isFilled($prop);
@@ -193,7 +191,7 @@ abstract class DataContainer extends DataProvider {
      *
      */
 
-    protected function required(string $property):void {
+    protected function required($property) {
          array_push($this->required, $property);
     }
 
@@ -205,7 +203,7 @@ abstract class DataContainer extends DataProvider {
      *
      */
 
-    private function isModel($elem):bool {
+    private function isModel($elem) {
         return ($elem instanceof DataContainer);
     }
 
@@ -217,7 +215,7 @@ abstract class DataContainer extends DataProvider {
      *
      */
 
-    private function isFilled($model):bool {
+    private function isFilled($model) {
         if(property_exists($model, 'required')) {
             foreach($model->required as $prop) {
                 if(empty($model->$prop)) {
@@ -240,7 +238,7 @@ abstract class DataContainer extends DataProvider {
      *
      */
 
-    private function getKeyName(DataContainer $model, string $property):string {
+    private function getKeyName($model, $property) {
         return ($this->isDefault($model, $property))
             ? $this->toQueryProperty($model, $property)
             : $property;
@@ -253,7 +251,7 @@ abstract class DataContainer extends DataProvider {
      * @return string
      *
      */
-    private function toQueryProperty(DataContainer $model, string $property):string {
+    private function toQueryProperty($model, $property) {
         $model = strtolower((new ReflectionClass($model))->getShortName());
         if($property == 'id') {
             if ($model == 'customer') {
@@ -291,7 +289,7 @@ abstract class DataContainer extends DataProvider {
      *
      */
 
-    private function toProperty(string $property):string {
+    private function toProperty($property) {
         return $this->prefix . $this->delimeter . $property;
     }
 
@@ -299,7 +297,7 @@ abstract class DataContainer extends DataProvider {
      * @return bool
      */
 
-    private function isDefault(DataContainer $model, string $property):bool {
+    private function isDefault($model, $property) {
         $ref = new ReflectionClass($model);
         if($ref->hasProperty($property)) {
             return $ref->getProperty($property)->isDefault();
@@ -315,12 +313,12 @@ abstract class DataContainer extends DataProvider {
      *
      */
 
-    private function getSalt(int $size):string {
-        return bin2hex(random_bytes($size));
+    private function getSalt($size) {
+        return substr(md5(microtime() . rand()), 0, $size);
     }
 
 
-    protected function toXML():void {
+    protected function toXML() {
         $this->xml = new \DOMDocument();
         $this->xml->preserveWhiteSpace = true;
         $this->xml->formatOutput = true;

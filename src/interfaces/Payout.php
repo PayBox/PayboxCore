@@ -13,7 +13,7 @@ namespace Paybox\Core\Interfaces;
 /**
  *
  * @package Paybox\Core\Interfaces
- * @version 1.2.2
+ * @version 1.1.0
  * @author Sergey Astapenko <sa@paybox.money> @link https://paybox.money
  * @copyright LLC Paybox.money
  * @license GPLv3 @link https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -22,12 +22,12 @@ namespace Paybox\Core\Interfaces;
 
 interface Payout {
 
-    public function reg2reg():bool;
+    public function reg2reg();
     public function reg2nonreg();
     public function toIban();
     public function cashByCode();
     public function kazpost();
-    public function getStatus(int $paymentId):string;
-    public function getBalance(int $merchantId):string;
+    public function getStatus($paymentId);
+    public function getBalance($merchantId);
 
 }

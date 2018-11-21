@@ -16,7 +16,7 @@ use Paybox\Core\Exceptions\Request as RequestException;
 /**
  *
  * @package Paybox\Core\Abstractions
- * @version 1.2.2
+ * @version 1.1.0
  * @author Sergey Astapenko <sa@paybox.money> @link https://paybox.money
  * @copyright LLC Paybox.money
  * @license GPLv3 @link https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -31,7 +31,7 @@ abstract class DataProvider {
      * @return void
      */
 
-    protected function send():void {
+    protected function send() {
         if($curl = curl_init()) {
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
@@ -59,7 +59,7 @@ abstract class DataProvider {
      * @return string
      */
 
-    protected function getServerAnswer($param):string {
+    protected function getServerAnswer($param) {
         return $this->serverAnswer[$this->prefix . $this->delimeter . $param];
     }
 
@@ -69,7 +69,7 @@ abstract class DataProvider {
      * @return string
      */
 
-    protected function getServerArrayAnswer($param):array {
+    protected function getServerArrayAnswer($param) {
         return $this->serverAnswer[$this->prefix . $this->delimeter . $param];
     }
 
@@ -79,7 +79,7 @@ abstract class DataProvider {
      * @return array
      */
 
-    public function getFullServerAnswer():array {
+    public function getFullServerAnswer() {
         return $this->serverAnswer;
     }
 
