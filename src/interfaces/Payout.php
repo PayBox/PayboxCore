@@ -25,8 +25,6 @@ interface Payout {
     public function reg2reg():bool;
     public function reg2nonreg();
     public function toIban();
-    public function cashByCode();
-    public function kazpost();
     public function getStatus(int $paymentId):string;
     public function getBalance(int $merchantId):string;
 
