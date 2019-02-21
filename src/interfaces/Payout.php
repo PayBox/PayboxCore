@@ -22,7 +22,7 @@ namespace Paybox\Core\Interfaces;
 
 interface Payout {
 
-    public function reg2reg():bool;
+    public function reg2reg();
     public function reg2nonreg();
     public function toIban();
     public function getStatus():string;
