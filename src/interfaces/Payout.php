@@ -25,7 +25,7 @@ interface Payout {
     public function reg2reg():bool;
     public function reg2nonreg();
     public function toIban();
-    public function getStatus(int $paymentId):string;
-    public function getBalance(int $merchantId):string;
+    public function getStatus():string;
+    public function getBalance():string;
 
 }
